@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Point Consultation & Diagnostic Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1d4ed8;
+            --primary-dark: #1e40af;
+            --hospital: #059669;
+            --hospital-dark: #047857;
+            --danger: #dc2626;
+            --warn: #d97706;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        html {
+            scroll-padding-top: 82px;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.65;
+        }
+
+        .top-bar {
+            background: #0f172a;
+            color: #cbd5e1;
+            font-size: 0.88rem;
+            padding: 0.55rem 1rem;
+        }
+
+        .top-bar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .top-bar span i {
+            color: #34d399;
+            margin-right: 0.35rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, #064e3b 0%, #047857 52%, #1e3a8a 100%);
+            color: white;
+            padding: 2.8rem 1rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: #d1fae5;
+            font-size: 1.05rem;
+            max-width: 780px;
+            margin: 0 auto;
+        }
+
+        .lang-switch-wrap {
+            margin-top: 1.15rem;
+            display: flex;
+            justify-content: center;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+        }
+
+        .lang-btn {
+            background: #ffffff;
+            color: #0f172a;
+            border: 2px solid transparent;
+            padding: 0.52rem 1.15rem;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .lang-btn.active {
+            background: #facc15;
+            color: #0f172a;
+            border-color: #fef08a;
+        }
+
+        nav {
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0.85rem 1rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.42rem 0.9rem;
+            border-radius: 8px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        nav a:hover,
+        nav a.active-link {
+            color: var(--hospital-dark);
+            background: #ecfdf5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 1.5rem auto 2.5rem;
+            padding: 0 1rem;
+        }
+
+        .click-feedback {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1e3a8a;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        section {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.1rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            scroll-margin-top: 82px;
+        }
+
+        section h2 {
+            color: var(--text-dark);
+            margin-bottom: 0.65rem;
+            font-size: 1.62rem;
+            border-left: 5px solid var(--hospital);
+            padding-left: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .section-guide {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.4rem;
+            background: #f8fafc;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .hospital-hero-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-color);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.1rem 1.25rem;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 1.22rem;
+            color: var(--hospital-dark);
+        }
+
+        .stat-card span {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .doctor-card {
+            background: var(--bg-color);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            text-align: center;
+            padding-bottom: 1.2rem;
+            transition: transform 0.25s, box-shadow 0.25s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(15, 23, 42, 0.1);
+        }
+
+        .doctor-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border);
+            background: #e2e8f0;
+        }
+
+        .doctor-card h3 {
+            font-size: 1.1rem;
+            margin: 0.9rem 0 0.2rem;
+            padding: 0 0.6rem;
+        }
+
+        .doctor-card .specialty {
+            color: var(--hospital-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .doctor-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding: 0 0.7rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            background: var(--hospital);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.94rem;
+            transition: background 0.25s, transform 0.15s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+        }
+
+        .doctor-card .btn {
+            width: calc(100% - 1.6rem);
+            margin: 0 auto;
+        }
+
+        .btn:hover {
+            background: var(--hospital-dark);
+        }
+
+        .btn-secondary {
+            background: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-dark);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            background: #f1f5f9;
+        }
+
+        .btn-sm {
+            padding: 0.38rem 0.75rem;
+            font-size: 0.82rem;
+            border-radius: 6px;
+        }
+
+        .readiness-box {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-left: 5px solid var(--warn);
+            border-radius: 12px;
+            padding: 1.1rem 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .readiness-box h4 {
+            color: #92400e;
+            margin-bottom: 0.45rem;
+            font-size: 1rem;
+        }
+
+        .readiness-box p {
+            color: #78350f;
+            font-size: 0.92rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .diagnostic-section {
+            background: #fdf4ff;
+            border: 1px solid #f5d0fe;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+
+        .test-search {
+            width: 100%;
+            padding: 0.78rem 1rem;
+            border: 1px solid #e879f9;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            outline: none;
+            background: #fff;
+        }
+
+        .test-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .test-table th,
+        .test-table td {
+            padding: 0.75rem 0.9rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.92rem;
+        }
+
+        .test-table th {
+            background: #fae8ff;
+            color: #86198f;
+        }
+
+        .booking-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .field-help {
+            display: block;
+            font-size: 0.83rem;
+            color: var(--text-muted);
+            margin-bottom: 0.45rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.78rem 0.9rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.98rem;
+            outline: none;
+            background: #fff;
+        }
+
+        .test-checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 0.65rem;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 0.9rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .test-checklist label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .recommendation-badge {
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+            display: none;
+            border-left: 5px solid var(--primary);
+        }
+
+        .action-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .slip-card {
+            background: #ffffff;
+            border: 2px dashed #059669;
+            border-radius: 12px;
+            padding: 1.35rem;
+            margin-top: 1.4rem;
+            display: none;
+        }
+
+        .slip-card h4 {
+            color: var(--hospital-dark);
+            margin-bottom: 0.6rem;
+            font-size: 1.15rem;
+        }
+
+        .sms-box {
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 1.15rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            font-family: Consolas, Monaco, monospace;
+            font-size: 0.92rem;
+            display: none;
+        }
+
+        .queue-box {
+            margin-top: 2rem;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.4rem;
+            scroll-margin-top: 82px;
+        }
+
+        .queue-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .queue-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+        }
+
+        .priority-tag {
+            background: #fee2e2;
+            color: var(--danger);
+            font-weight: 700;
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.76rem;
+            margin-left: 0.35rem;
+        }
+
+        .stage-pill {
+            display: inline-block;
+            padding: 0.22rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .stage-ready {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 560px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .close-btn:hover {
+            color: var(--text-dark);
+        }
+
+        .modal-content h3 {
+            color: var(--hospital-dark);
+            margin-bottom: 0.8rem;
+            font-size: 1.45rem;
+        }
+
+        .modal-content p {
+            margin-bottom: 0.65rem;
+            color: #334155;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin-top: 3rem;
+        }
+
+        @media print {
+            .top-bar, nav, header, #healthpoint, .click-feedback, .form-row, .test-checklist, .readiness-box, #recommendationBox, .action-row, .queue-box, footer {
+                display: none !important;
+            }
+            body, section, .booking-box {
+                background: #fff !important;
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .slip-card {
+                display: block !important;
+                border: 2px solid #000 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="top-bar-inner">
+            <span data-en="Health Point Consultation & Diagnostic Center — 2027" data-bn="হেলথ পয়েন্ট কনসালটেশন অ্যান্ড ডায়াগনস্টিক সেন্টার — ২০২৭">
+                <i class="fas fa-hospital"></i> <span class="txt">Health Point Consultation & Diagnostic Center — 2027</span>
+            </span>
+            <span data-en="Boalkhali, Chittagong" data-bn="বোয়ালখালী, চট্টগ্রাম">
+                <i class="fas fa-map-marker-alt"></i> <span class="txt">Boalkhali, Chittagong</span>
+            </span>
+        </div>
+    </div>
+
+    <header>
+        <h1 data-en="Health Point Consultation & Diagnostic Center" data-bn="হেলথ পয়েন্ট কনসালটেশন অ্যান্ড ডায়াগনস্টিক সেন্টার">
+            Health Point Consultation & Diagnostic Center
+        </h1>
+        <p data-en="Doctor Serial, Lab Test Guide & Patient Support — English by Default with Instant Bangla Translator" data-bn="ডাক্তারের সিরিয়াল, ল্যাব টেস্টের নিয়ম ও রোগীদের সহজ গাইড — এক ক্লিকে বাংলা অনুবাদ">
+            Doctor Serial, Lab Test Guide & Patient Support — English by Default with Instant Bangla Translator
+        </p>
+        <div class="lang-switch-wrap">
+            <button type="button" id="btnEn" class="lang-btn active" onclick="applyLanguage('en')">
+                <i class="fas fa-globe"></i> English
+            </button>
+            <button type="button" id="btnBn" class="lang-btn" onclick="applyLanguage('bn')">
+                <i class="fas fa-language"></i> Translate (বাংলা)
+            </button>
+        </div>
+    </header>
+
+    <nav id="mainNav">
+        <a href="#healthpoint" class="nav-item active-link"
+           data-en="Doctors & Tests" data-bn="ডাক্তার ও টেস্ট"
+           data-msg-en="Showing Doctors & Tests — view specialists, test prices, and fasting rules below."
+           data-msg-bn="ডাক্তার ও টেস্ট অংশ দেখাচ্ছে — নিচে বিশেষজ্ঞ ডাক্তার ও টেস্টের নিয়ম দেখুন।"
+           onclick="handleNavClick(this)">Doctors & Tests</a>
+        <a href="#booking" class="nav-item"
+           data-en="Serial & Test Guide" data-bn="সিরিয়াল ও টেস্ট গাইড"
+           data-msg-en="Showing Serial & Test Guide — enter patient info and pick problem/tests below."
+           data-msg-bn="সিরিয়াল ও টেস্ট গাইড দেখাচ্ছে — রোগীর নাম, সমস্যা ও টেস্ট বাছাই করুন।"
+           onclick="handleNavClick(this)">Serial & Test Guide</a>
+        <a href="#queue-section" class="nav-item"
+           data-en="Live Queue & CSV" data-bn="লাইভ কিউ ও CSV"
+           data-msg-en="Showing Live Queue & CSV — update report status or download CSV below."
+           data-msg-bn="লাইভ কিউ ও CSV দেখাচ্ছে — রিপোর্টের ধাপ বদলান বা CSV নামান।"
+           onclick="handleNavClick(this)">Live Queue & CSV</a>
+    </nav>
+
+    <div class="container">
+        <div id="clickFeedback" class="click-feedback"
+             data-en="Ready — English is active. Click Translate (বাংলা) anytime to switch to Bangla."
+             data-bn="প্রস্তুত — বাংলা অনুবাদ চালু আছে। আবার ইংরেজিতে যেতে English বাটনে চাপুন।">
+            Ready — English is active. Click Translate (বাংলা) anytime to switch to Bangla.
+        </div>
+
+        <section id="healthpoint">
+            <h2>
+                <i class="fas fa-hospital-alt"></i>
+                <span data-en="Specialists & Diagnostic Info" data-bn="বিশেষজ্ঞ ডাক্তার ও টেস্টের তথ্য">Specialists & Diagnostic Info</span>
+            </h2>
+            <p class="section-guide"
+               data-en="What this option does: Shows our specialist doctors, test prices, and fasting rules. Click View Full Profile on any doctor to see chamber days and degrees."
+               data-bn="এই অপশন কী কাজ করে: এখানে ডাক্তারদের তালিকা, টেস্টের দাম ও খালি পেটের নিয়ম দেওয়া আছে। যেকোনো ডাক্তারের বিস্তারিত দেখুন চাপলে চেম্বারের সময় ও ডিগ্রি দেখা যাবে।">
+                What this option does: Shows our specialist doctors, test prices, and fasting rules. Click View Full Profile on any doctor to see chamber days and degrees.
+            </p>
+
+            <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=80" alt="Hospital Interior" class="hospital-hero-img">
+
+            <div class="overview-grid">
+                <div class="stat-card">
+                    <strong id="statPatients">0</strong>
+                    <span data-en="Patients in Live Queue" data-bn="লাইভ কিউতে রোগীর সংখ্যা">Patients in Live Queue</span>
+                </div>
+                <div class="stat-card">
+                    <strong id="statRevenue">৳ 0</strong>
+                    <span data-en="Estimated Lab Test Total" data-bn="আনুমানিক মোট টেস্ট ফি">Estimated Lab Test Total</span>
+                </div>
+                <div class="stat-card">
+                    <strong data-en="Fasting & Repeat Check" data-bn="খালি পেট ও রিপিট যাচাই">Fasting & Repeat Check</strong>
+                    <span data-en="Warns if fasting or waiting is needed" data-bn="খালি পেট বা অপেক্ষার প্রয়োজন হলে সতর্ক করে">Warns if fasting or waiting is needed</span>
+                </div>
+                <div class="stat-card">
+                    <strong data-en="Serial Slip & CSV" data-bn="সিরিয়াল স্লিপ ও CSV">Serial Slip & CSV</strong>
+                    <span data-en="Print slip or save queue as CSV" data-bn="স্লিপ প্রিন্ট করুন বা তালিকা CSV হিসেবে নামান">Print slip or save queue as CSV</span>
+                </div>
+            </div>
+
+            <div class="doctor-grid">
+                <div class="doctor-card">
+                    <div>
+                        <img src="images/doctor1.png" alt="Dr. Afrin Sultana" onerror="this.src='https://via.placeholder.com/300x220?text=Dr.+Afrin+Sultana'">
+                        <h3 data-en="Dr. Afrin Sultana" data-bn="ডা. আফরিন সুলতানা">Dr. Afrin Sultana</h3>
+                        <div class="specialty" data-en="Medicine Specialist" data-bn="মেডিসিন বিশেষজ্ঞ">Medicine Specialist</div>
+                        <p>MBBS, FCPS (Medicine), CCD (BIRDEM)</p>
+                    </div>
+                    <button type="button" class="btn" onclick="openModal('doc1')">
+                        <i class="fas fa-id-card"></i>
+                        <span data-en="View Full Profile" data-bn="বিস্তারিত দেখুন">View Full Profile</span>
+                    </button>
+                </div>
+
+                <div class="doctor-card">
+                    <div>
+                        <img src="images/doctor2.png" alt="Dr. Yusuf Ahmed" onerror="this.src='https://via.placeholder.com/300x220?text=Dr.+Yusuf+Ahmed'">
+                        <h3 data-en="Dr. Yusuf Ahmed" data-bn="ডা. ইউসুফ আহমেদ">Dr. Yusuf Ahmed</h3>
+                        <div class="specialty" data-en="Surgery Specialist" data-bn="সার্জারি বিশেষজ্ঞ">Surgery Specialist</div>
+                        <p>MBBS, MS (General Surgery)</p>
+                    </div>
+                    <button type="button" class="btn" onclick="openModal('doc2')">
+                        <i class="fas fa-id-card"></i>
+                        <span data-en="View Full Profile" data-bn="বিস্তারিত দেখুন">View Full Profile</span>
+                    </button>
+                </div>
+
+                <div class="doctor-card">
+                    <div>
+                        <img src="images/doctor3.png" alt="Dr. Saadia Sultana" onerror="this.src='https://via.placeholder.com/300x220?text=Dr.+Saadia+Sultana'">
+                        <h3 data-en="Dr. Saadia Sultana" data-bn="ডা. সাদিয়া সুলতানা">Dr. Saadia Sultana</h3>
+                        <div class="specialty" data-en="Child & Newborn Specialist" data-bn="শিশু ও নবজাতক বিশেষজ্ঞ">Child & Newborn Specialist</div>
+                        <p>MBBS, DCH, FCPS (Part-II) Child</p>
+                    </div>
+                    <button type="button" class="btn" onclick="openModal('doc3')">
+                        <i class="fas fa-id-card"></i>
+                        <span data-en="View Full Profile" data-bn="বিস্তারিত দেখুন">View Full Profile</span>
+                    </button>
+                </div>
+
+                <div class="doctor-card">
+                    <div>
+                        <img src="images/doctor4.png" alt="Mohammed Ashraful Islam Tuhin" onerror="this.src='https://via.placeholder.com/300x220?text=Dr.+Ashraful+Tuhin'">
+                        <h3 data-en="Mohammed Ashraful Islam Tuhin" data-bn="ডা. মো. আশরাফুল ইসলাম তুহিন">Mohammed Ashraful Islam Tuhin</h3>
+                        <div class="specialty" data-en="Cardiology Specialist" data-bn="হৃদরোগ / কার্ডিওলজি বিশেষজ্ঞ">Cardiology Specialist</div>
+                        <p>MBBS, FCPS (Cardiology), CCD (BIRDEM)</p>
+                    </div>
+                    <button type="button" class="btn" onclick="openModal('doc4')">
+                        <i class="fas fa-id-card"></i>
+                        <span data-en="View Full Profile" data-bn="বিস্তারিত দেখুন">View Full Profile</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="diagnostic-section">
+                <h3 style="color: #86198f; margin-bottom: 0.6rem;">
+                    <i class="fas fa-vials"></i>
+                    <span data-en="Lab Tests, Fasting Rule & Price" data-bn="ল্যাব টেস্ট, খালি পেটের নিয়ম ও খরচ">Lab Tests, Fasting Rule & Price</span>
+                </h3>
+                <p style="color: #6b21a8; font-size: 0.9rem; margin-bottom: 0.9rem;"
+                   data-en="What this box does: Search any test name to see if fasting is needed and how much it costs."
+                   data-bn="এই বক্স কী কাজ করে: টেস্টের নাম লিখে খুঁজুন কোন টেস্টে খালি পেট দরকার এবং খরচ কত।">
+                    What this box does: Search any test name to see if fasting is needed and how much it costs.
+                </p>
+                <input type="text" id="testSearch" class="test-search"
+                       data-ph-en="Search test name (e.g., Lipid, Sugar, ECG, USG)..."
+                       data-ph-bn="টেস্টের নাম লিখুন (যেমন: Lipid, Sugar, ECG, USG)..."
+                       placeholder="Search test name (e.g., Lipid, Sugar, ECG, USG)..." onkeyup="filterTests()">
+                <div style="overflow-x: auto;">
+                    <table class="test-table" id="testTable">
+                        <thead>
+                            <tr>
+                                <th data-en="Test Name" data-bn="টেস্টের নাম">Test Name</th>
+                                <th data-en="Category" data-bn="বিভাগ">Category</th>
+                                <th data-en="Fasting / Prep Rule" data-bn="খালি পেট / প্রস্তুতির নিয়ম">Fasting / Prep Rule</th>
+                                <th data-en="Fee (BDT)" data-bn="ফি (টাকা)">Fee (BDT)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Complete Blood Count (CBC)</td>
+                                <td data-en="Pathology" data-bn="প্যাথলজি">Pathology</td>
+                                <td data-en="No fasting needed" data-bn="খালি পেট থাকার দরকার নেই">No fasting needed</td>
+                                <td>450</td>
+                            </tr>
+                            <tr>
+                                <td>Random Blood Sugar (RBS)</td>
+                                <td data-en="Pathology" data-bn="প্যাথলজি">Pathology</td>
+                                <td data-en="Can be done anytime" data-bn="যেকোনো সময় করা যায়">Can be done anytime</td>
+                                <td>150</td>
+                            </tr>
+                            <tr>
+                                <td>Lipid Profile</td>
+                                <td data-en="Biochemistry" data-bn="বায়োকেমিস্ট্রি">Biochemistry</td>
+                                <td data-en="9–12 hr fasting best" data-bn="৯–১২ ঘণ্টা খালি পেটে করলে ভালো">9–12 hr fasting best</td>
+                                <td>1200</td>
+                            </tr>
+                            <tr>
+                                <td>ECG (Electrocardiogram)</td>
+                                <td data-en="Cardiology" data-bn="হৃদরোগ">Cardiology</td>
+                                <td data-en="Rest 5 mins before test" data-bn="টেস্টের আগে ৫ মিনিট বিশ্রাম নিন">Rest 5 mins before test</td>
+                                <td>500</td>
+                            </tr>
+                            <tr>
+                                <td>Ultrasonography (USG) of Whole Abdomen</td>
+                                <td data-en="Imaging" data-bn="ইমেজিং / আল্ট্রাসনো">Imaging</td>
+                                <td data-en="Fasting & full bladder as advised" data-bn="পরামর্শ অনুযায়ী খালি পেট ও প্রস্রাব ধরে রাখা">Fasting & full bladder as advised</td>
+                                <td>1500</td>
+                            </tr>
+                            <tr>
+                                <td>Serum Creatinine</td>
+                                <td data-en="Biochemistry" data-bn="বায়োকেমিস্ট্রি">Biochemistry</td>
+                                <td data-en="Normal water intake" data-bn="স্বাভাবিক পানি পান করুন">Normal water intake</td>
+                                <td>400</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="booking">
+            <h2>
+                <i class="fas fa-calendar-check"></i>
+                <span data-en="Serial Booking & Patient Test Helper" data-bn="সিরিয়াল বুকিং ও রোগীর টেস্ট সহায়ক">Serial Booking & Patient Test Helper</span>
+            </h2>
+            <p class="section-guide"
+               data-en="What this option does: Helps patients/attendants get a serial token, pick the right doctor for a health problem, check fasting/repeat timing, and see estimated lab cost."
+               data-bn="এই অপশন কী কাজ করে: রোগী বা স্বজনদের সিরিয়াল টোকেন নিতে, সমস্যা অনুযায়ী সঠিক ডাক্তার বাছতে, খালি পেট/আগের টেস্ট যাচাই করতে এবং আনুমানিক খরচ দেখতে সাহায্য করে।">
+                What this option does: Helps patients/attendants get a serial token, pick the right doctor for a health problem, check fasting/repeat timing, and see estimated lab cost.
+            </p>
+
+            <div class="booking-box">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="patientName" data-en="Patient Full Name *" data-bn="রোগীর পুরো নাম *">Patient Full Name *</label>
+                        <small class="field-help" data-en="Write the patient's name for the serial slip." data-bn="সিরিয়াল স্লিপে রোগীর এই নামটি লেখা থাকবে।">Write the patient's name for the serial slip.</small>
+                        <input type="text" id="patientName" data-ph-en="Enter patient full name" data-ph-bn="রোগীর নাম লিখুন" placeholder="Enter patient full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="patientPhone" data-en="Mobile Number *" data-bn="মোবাইল নম্বর *">Mobile Number *</label>
+                        <small class="field-help" data-en="Used to show serial & report stage updates." data-bn="সিরিয়াল ও রিপোর্টের ধাপ দেখানোর জন্য নম্বর দিন।">Used to show serial & report stage updates.</small>
+                        <input type="tel" id="patientPhone" placeholder="01XXXXXXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label for="fastingStatus" data-en="Have You Eaten Today? (Fasting Check)" data-bn="আজ কি কিছু খেয়েছেন? (খালি পেট যাচাই)">Have You Eaten Today? (Fasting Check)</label>
+                        <small class="field-help" data-en="Lipid or USG tests are clearer after fasting." data-bn="Lipid বা USG টেস্ট খালি পেটে করলে রিপোর্ট পরিষ্কার আসে।">Lipid or USG tests are clearer after fasting.</small>
+                        <select id="fastingStatus" onchange="evaluateGuards()">
+                            <option value="unknown" data-en="-- Select Meal Status --" data-bn="-- খাওয়ার অবস্থা বেছে নিন --">-- Select Meal Status --</option>
+                            <option value="fasting" data-en="Fasting (No food for 8+ hours)" data-bn="খালি পেট (৮ ঘণ্টার বেশি কিছু খাইনি)">Fasting (No food for 8+ hours)</option>
+                            <option value="eaten" data-en="Recently Eaten (Within last 2–4 hours)" data-bn="কিছুক্ষণ আগে খেয়েছি (গত ২–৪ ঘণ্টার মধ্যে)">Recently Eaten (Within last 2–4 hours)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="lastLabDays" data-en="Days Since Last Same Test (Optional)" data-bn="আগে একই টেস্ট কতদিন আগে করেছেন? (ঐচ্ছিক)">Days Since Last Same Test (Optional)</label>
+                        <small class="field-help" data-en="Helps avoid repeating a test too soon without need." data-bn="অকারণে খুব অল্প দিনে একই টেস্ট করা থেকে বাঁচায়।">Helps avoid repeating a test too soon without need.</small>
+                        <input type="number" id="lastLabDays" min="0" max="365" data-ph-en="e.g., 10 (optional)" data-ph-bn="যেমন: 10 (ঐচ্ছিক)" placeholder="e.g., 10 (optional)" oninput="evaluateGuards()">
+                    </div>
+                    <div class="form-group">
+                        <label for="visitPriority" data-en="Urgency Level" data-bn="জরুরি অবস্থা">Urgency Level</label>
+                        <small class="field-help" data-en="Choose Urgent if quick attention is needed." data-bn="দ্রুত দেখা দরকার হলে জরুরি (Urgent) বেছে নিন।">Choose Urgent if quick attention is needed.</small>
+                        <select id="visitPriority">
+                            <option value="Normal" data-en="Normal Queue" data-bn="সাধারণ সিরিয়াল">Normal Queue</option>
+                            <option value="Priority" data-en="Urgent / Priority" data-bn="জরুরি / আগে দেখা হবে">Urgent / Priority</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="diseaseSelect" data-en="What Problem Does the Patient Have?" data-bn="রোগীর কী সমস্যা হয়েছে?">What Problem Does the Patient Have?</label>
+                        <small class="field-help" data-en="Auto-picks the matching specialist doctor below." data-bn="সমস্যা বাছলে নিচে উপযুক্ত ডাক্তার নিজেই বেছে নেবে।">Auto-picks the matching specialist doctor below.</small>
+                        <select id="diseaseSelect" onchange="recommendDoctor()">
+                            <option value="" data-en="-- Select Problem --" data-bn="-- সমস্যা বেছে নিন --">-- Select Problem --</option>
+                            <option value="medicine" data-en="Fever, Diabetes, High BP, Weakness (Medicine)" data-bn="জ্বর, ডায়াবেটিস, প্রেশার, দুর্বলতা (মেডিসিন)">Fever, Diabetes, High BP, Weakness (Medicine)</option>
+                            <option value="surgery" data-en="Injury, Appendix, Lump/Tumor, Surgery Pain (Surgery)" data-bn="আঘাত, অ্যাপেন্ডিক্স, চাকা/টিউমার, সার্জারি ব্যথা (সার্জারি)">Injury, Appendix, Lump/Tumor, Surgery Pain (Surgery)</option>
+                            <option value="child" data-en="Baby/Child Fever, Cough, Checkup (Child)" data-bn="শিশু বা নবজাতকের জ্বর, কাশি, চেকআপ (শিশু)">Baby/Child Fever, Cough, Checkup (Child)</option>
+                            <option value="cardiology" data-en="Chest Pain, Heartbeat, BP Check (Cardiology)" data-bn="বুকে ব্যথা, ধড়ফড়, হার্ট ও প্রেশার চেক (হৃদরোগ)">Chest Pain, Heartbeat, BP Check (Cardiology)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="selectDoctor" data-en="Selected Doctor *" data-bn="নির্বাচিত ডাক্তার *">Selected Doctor *</label>
+                        <small class="field-help" data-en="You can change the doctor manually anytime." data-bn="প্রয়োজনে আপনি নিজেই ডাক্তার বদলাতে পারবেন।">You can change the doctor manually anytime.</small>
+                        <select id="selectDoctor">
+                            <option value="Dr. Afrin Sultana (Medicine)" data-en="Dr. Afrin Sultana (Medicine)" data-bn="ডা. আফরিন সুলতানা (মেডিসিন)">Dr. Afrin Sultana (Medicine)</option>
+                            <option value="Dr. Yusuf Ahmed (Surgery)" data-en="Dr. Yusuf Ahmed (Surgery)" data-bn="ডা. ইউসুফ আহমেদ (সার্জারি)">Dr. Yusuf Ahmed (Surgery)</option>
+                            <option value="Dr. Saadia Sultana (Child & Newborn)" data-en="Dr. Saadia Sultana (Child & Newborn)" data-bn="ডা. সাদিয়া সুলতানা (শিশু ও নবজাতক)">Dr. Saadia Sultana (Child & Newborn)</option>
+                            <option value="Mohammed Ashraful Islam Tuhin (Cardiology)" data-en="Mohammed Ashraful Islam Tuhin (Cardiology)" data-bn="ডা. মো. আশরাফুল ইসলাম তুহিন (হৃদরোগ)">Mohammed Ashraful Islam Tuhin (Cardiology)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="clinicalNote" data-en="Short Note for Doctor / Lab (Optional)" data-bn="ডাক্তার বা ল্যাবের জন্য ছোট নোট (ঐচ্ছিক)">Short Note for Doctor / Lab (Optional)</label>
+                        <small class="field-help" data-en="Example: Check BP first or morning sample." data-bn="যেমন: আগে প্রেশার মাপবেন বা সকালের নমুনা।">Example: Check BP first or morning sample.</small>
+                        <input type="text" id="clinicalNote" data-ph-en="Short note (optional)" data-ph-bn="ছোট নোট লিখুন (ঐচ্ছিক)" placeholder="Short note (optional)">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label data-en="Select Lab Tests (Optional)" data-bn="ল্যাব টেস্ট নির্বাচন করুন (ঐচ্ছিক)">Select Lab Tests (Optional)</label>
+                    <small class="field-help" data-en="Tick tests to add up the estimated lab fee automatically." data-bn="টেস্টে টিক দিলে নিচে আনুমানিক মোট খরচ হিসাব হবে।">Tick tests to add up the estimated lab fee automatically.</small>
+                    <div class="test-checklist" id="testChecklist">
+                        <label><input type="checkbox" value="450" data-name="CBC" onchange="onTestChange()"> CBC (৳450)</label>
+                        <label><input type="checkbox" value="150" data-name="RBS" onchange="onTestChange()"> <span data-en="Random Blood Sugar (৳150)" data-bn="র‍্যান্ডম ব্লাড সুগার (৳150)">Random Blood Sugar (৳150)</span></label>
+                        <label><input type="checkbox" value="1200" data-name="Lipid Profile" onchange="onTestChange()"> Lipid Profile (৳1200)</label>
+                        <label><input type="checkbox" value="500" data-name="ECG" onchange="onTestChange()"> ECG (৳500)</label>
+                        <label><input type="checkbox" value="1500" data-name="USG Whole Abdomen" onchange="onTestChange()"> <span data-en="USG Whole Abdomen (৳1500)" data-bn="আল্ট্রাসনো পেট (৳1500)">USG Whole Abdomen (৳1500)</span></label>
+                        <label><input type="checkbox" value="400" data-name="Serum Creatinine" onchange="onTestChange()"> Serum Creatinine (৳400)</label>
+                    </div>
+                </div>
+
+                <div id="readinessBox" class="readiness-box">
+                    <h4>
+                        <i class="fas fa-shield-halved"></i>
+                        <span data-en="Patient Test Advice (Fasting & Repeat Check)" data-bn="রোগীর জন্য টেস্ট পরামর্শ (খালি পেট ও রিপিট যাচাই)">Patient Test Advice (Fasting & Repeat Check)</span>
+                    </h4>
+                    <p id="readinessText">Select tests or meal status above to see preparation advice.</p>
+                    <p id="repeatText" style="font-weight: 600;"></p>
+                </div>
+
+                <div id="recommendationBox" class="recommendation-badge"></div>
+
+                <p id="feePreview" style="margin-bottom: 1rem; font-weight: 700; color: #0f172a;">
+                    Estimated Selected Lab Fee: ৳ 0
+                </p>
+
+                <div class="action-row">
+                    <button type="button" class="btn" onclick="bookSerial()">
+                        <i class="fas fa-check-circle"></i>
+                        <span data-en="Get Serial Token" data-bn="সিরিয়াল টোকেন নিন">Get Serial Token</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="printSlipSafe()">
+                        <i class="fas fa-print"></i>
+                        <span data-en="Print Slip" data-bn="স্লিপ প্রিন্ট করুন">Print Slip</span>
+                    </button>
+                    <button type="button" class="btn btn-outline" onclick="resetBookingForm()">
+                        <i class="fas fa-rotate-left"></i>
+                        <span data-en="Clear Form" data-bn="ফর্ম মুছুন">Clear Form</span>
+                    </button>
+                </div>
+
+                <div id="slipCard" class="slip-card">
+                    <h4>
+                        <i class="fas fa-file-medical"></i>
+                        <span data-en="Patient Serial Slip" data-bn="রোগীর সিরিয়াল স্লিপ">Patient Serial Slip</span>
+                    </h4>
+                    <div id="slipDetails"></div>
+                </div>
+
+                <div id="smsBox" class="sms-box"></div>
+            </div>
+
+            <div class="queue-box" id="queue-section">
+                <div class="queue-header">
+                    <h3>
+                        <i class="fas fa-diagram-project"></i>
+                        <span data-en="Live Queue & Report Stage (Queued → Sampled → Processing → Ready)" data-bn="লাইভ কিউ ও রিপোর্টের ধাপ (Queued → Sampled → Processing → Ready)">Live Queue & Report Stage (Queued → Sampled → Processing → Ready)</span>
+                    </h3>
+                    <div class="queue-actions">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="exportPipelineCSV()">
+                            <i class="fas fa-file-csv"></i>
+                            <span data-en="Export CSV" data-bn="CSV নামান">Export CSV</span>
+                        </button>
+                        <button type="button" class="btn btn-outline btn-sm" onclick="clearQueue()">
+                            <i class="fas fa-trash-alt"></i>
+                            <span data-en="Reset Queue" data-bn="কিউ রিসেট করুন">Reset Queue</span>
+                        </button>
+                    </div>
+                </div>
+                <p class="field-help" style="margin-bottom: 0.8rem;"
+                   data-en="What this table does: Tracks each patient's token and lets staff move the status to the next stage or export as CSV."
+                   data-bn="এই টেবিল কী কাজ করে: রোগীর টোকেন নম্বর রাখে, ধাপ এগিয়ে নিতে সাহায্য করে এবং পুরো তালিকা CSV ফাইলে নামাতে দেয়।">
+                    What this table does: Tracks each patient's token and lets staff move the status to the next stage or export as CSV.
+                </p>
+                <div style="overflow-x: auto;">
+                    <table class="test-table" id="queueTable">
+                        <thead>
+                            <tr>
+                                <th data-en="Token" data-bn="টোকেন">Token</th>
+                                <th data-en="Patient" data-bn="রোগী">Patient</th>
+                                <th data-en="Phone" data-bn="ফোন">Phone</th>
+                                <th data-en="Doctor" data-bn="ডাক্তার">Doctor</th>
+                                <th data-en="Note" data-bn="নোট">Note</th>
+                                <th data-en="Lab Fee" data-bn="ল্যাব ফি">Lab Fee</th>
+                                <th data-en="Stage" data-bn="ধাপ">Stage</th>
+                                <th data-en="Update Stage" data-bn="ধাপ বদলান">Update Stage</th>
+                            </tr>
+                        </thead>
+                        <tbody id="queueBody">
+                            <tr><td colspan="8" style="text-align:center; color:#64748b;" id="emptyQueueCell">No serials in the queue yet.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Doctor Modals -->
+    <div id="doc1" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('doc1')">&times;</span>
+            <h3 data-en="Dr. Afrin Sultana" data-bn="ডা. আফরিন সুলতানা">Dr. Afrin Sultana</h3>
+            <p><strong data-en="Specialty:" data-bn="বিশেষত্ব:">Specialty:</strong> <span data-en="Medicine Specialist" data-bn="মেডিসিন বিশেষজ্ঞ">Medicine Specialist</span></p>
+            <p><strong data-en="Degrees:" data-bn="ডিগ্রি:">Degrees:</strong> MBBS, FCPS (Medicine), PGT (Radiology & Imaging), CCD (BIRDEM)</p>
+            <p><strong data-en="Affiliation:" data-bn="কর্মস্থল:">Affiliation:</strong> <span data-en="Medical Officer, National Hospital (Pvt) Ltd, Chittagong" data-bn="মেডিকেল অফিসার, ন্যাশনাল হাসপাতাল (প্রাঃ) লিঃ, চট্টগ্রাম">Medical Officer, National Hospital (Pvt) Ltd, Chittagong</span></p>
+            <p><strong data-en="Visiting Hours:" data-bn="চেম্বারের সময়:">Visiting Hours:</strong> <span data-en="Friday & Saturday (Morning 11:00 AM+, Evening 6:00 PM+)" data-bn="শুক্রবার ও শনিবার (সকাল ১১:০০টা+, সন্ধ্যা ৬:০০টা+)">Friday & Saturday (Morning 11:00 AM+, Evening 6:00 PM+)</span></p>
+            <p><strong data-en="Chamber:" data-bn="চেম্বার:">Chamber:</strong> <span data-en="Health Point Consultation & Diagnostic Center, Boalkhali, Chittagong" data-bn="হেলথ পয়েন্ট কনসালটেশন অ্যান্ড ডায়াগনস্টিক সেন্টার, বোয়ালখালী, চট্টগ্রাম">Health Point Consultation & Diagnostic Center, Boalkhali, Chittagong</span></p>
+        </div>
+    </div>
+
+    <div id="doc2" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('doc2')">&times;</span>
+            <h3 data-en="Dr. Yusuf Ahmed" data-bn="ডা. ইউসুফ আহমেদ">Dr. Yusuf Ahmed</h3>
+            <p><strong data-en="Specialty:" data-bn="বিশেষত্ব:">Specialty:</strong> <span data-en="General Surgery Specialist" data-bn="জেনারেল সার্জারি বিশেষজ্ঞ">General Surgery Specialist</span></p>
+            <p><strong data-en="Degrees:" data-bn="ডিগ্রি:">Degrees:</strong> MBBS, MS (Surgery)</p>
+            <p><strong data-en="Visiting Hours:" data-bn="চেম্বারের সময়:">Visiting Hours:</strong> <span data-en="Saturday & Tuesday (Evening)" data-bn="শনিবার ও মঙ্গলবার (সন্ধ্যা)">Saturday & Tuesday (Evening)</span></p>
+            <p><strong data-en="Chamber:" data-bn="চেম্বার:">Chamber:</strong> <span data-en="Health Point Consultation & Diagnostic Center, Boalkhali, Chittagong" data-bn="হেলথ পয়েন্ট কনসালটেশন অ্যান্ড ডায়াগনস্টিক সেন্টার, বোয়ালখালী, চট্টগ্রাম">Health Point Consultation & Diagnostic Center, Boalkhali, Chittagong</span></p>
+        </div>
+    </div>
+
+    <div id="doc3" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('doc3')">&times;</span>
+            <h3 data-en="Dr. Saadia Sultana" data-bn="ডা. সাদিয়া সুলতানা">Dr. Saadia Sultana</h3>
+            <p><strong data-en="Specialty:" data-bn="বিশেষত্ব:">Specialty:</strong> <span data-en="Child & Newborn Specialist" data-bn="শিশু ও নবজাতক বিশেষজ্ঞ">Child & Newborn Specialist</span></p>
+            <p><strong data-en="Degrees:" data-bn="ডিগ্রি:">Degrees:</strong> MBBS, DCH, FCPS (Part-II) Child Specialist — National Hospital, Chittagong</p>
+            <p><strong data-en="Visiting Hours:" data-bn="চেম্বারের সময়:">Visiting Hours:</strong> <span data-en="Sunday 11:00 AM & Saturday Evening 5:00 PM" data-bn="রবিবার সকাল ১১:০০টা ও শনিবার সন্ধ্যা ৫:০০টা">Sunday 11:00 AM & Saturday Evening 5:00 PM</span></p>
+            <p><strong data-en="Chamber:" data-bn="চেম্বার:">Chamber:</strong> <span data-en="Health Point Consultation & Diagnostic Center, Boalkhali, Chittagong" data-bn="হেলথ পয়েন্ট কনসালটেশন অ্যান্ড ডায়াগনস্টিক সেন্টার, বোয়ালখালী, চট্টগ্রাম">Health Point Consultation & Diagnostic Center, Boalkhali, Chittagong</span></p>
+        </div>
+    </div>
+
+    <div id="doc4" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('doc4')">&times;</span>
+            <h3 data-en="Mohammed Ashraful Islam Tuhin" data-bn="ডা. মো. আশরাফুল ইসলাম তুহিন">Mohammed Ashraful Islam Tuhin</h3>
+            <p><strong data-en="Specialty:" data-bn="বিশেষত্ব:">Specialty:</strong> <span data-en="Cardiology Specialist" data-bn="হৃদরোগ / কার্ডিওলজি বিশেষজ্ঞ">Cardiology Specialist</span></p>
+            <p><strong data-en="Degrees:" data-bn="ডিগ্রি:">Degrees:</strong> MBBS, FCPS (Cardiology), CCD (BIRDEM), Senior Medical Officer — CMC Hospital</p>
+            <p><strong data-en="Visiting Hours:" data-bn="চেম্বারের সময়:">Visiting Hours:</strong> <span data-en="Thursday, Friday & Sunday (8:00 PM)" data-bn="বৃহস্পতিবার, শুক্রবার ও রবিবার (রাত ৮:০০টা)">Thursday, Friday & Sunday (8:00 PM)</span></p>
+            <p><strong data-en="Chamber:" data-bn="চেম্বার:">Chamber:</strong> <span data-en="Health Point Consultation & Diagnostic Center, Boalkhali, Chittagong" data-bn="হেলথ পয়েন্ট কনসালটেশন অ্যান্ড ডায়াগনস্টিক সেন্টার, বোয়ালখালী, চট্টগ্রাম">Health Point Consultation & Diagnostic Center, Boalkhali, Chittagong</span></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="year">2027</span> Health Point Consultation & Diagnostic Center, Boalkhali, Chittagong.</p>
+    </footer>
+
+    <script>
+        const STORAGE_KEY = 'healthPointComplete2027';
+        const STAGES = ['Queued', 'Sample Collected', 'Lab Processing', 'Report Ready'];
+        let currentLang = 'en';
+        let memoryQueue = [];
+
+        function applyLanguage(lang) {
+            currentLang = lang === 'bn' ? 'bn' : 'en';
+            document.documentElement.lang = currentLang;
+
+            document.getElementById('btnEn').classList.toggle('active', currentLang === 'en');
+            document.getElementById('btnBn').classList.toggle('active', currentLang === 'bn');
+
+            document.querySelectorAll('[data-en][data-bn]').forEach((el) => {
+                const text = el.getAttribute(currentLang === 'bn' ? 'data-bn' : 'data-en');
+                if (el.tagName === 'OPTION') {
+                    el.textContent = text;
+                } else {
+                    const innerSpan = el.querySelector(':scope > span.txt');
+                    if (innerSpan) {
+                        innerSpan.textContent = text;
+                    } else {
+                        el.textContent = text;
+                    }
+                }
+            });
+
+            document.querySelectorAll('[data-ph-en][data-ph-bn]').forEach((el) => {
+                el.placeholder = el.getAttribute(currentLang === 'bn' ? 'data-ph-bn' : 'data-ph-en');
+            });
+
+            updateFeePreview();
+            evaluateGuards();
+            recommendDoctor();
+            renderQueue();
+        }
+
+        function handleNavClick(el) {
+            document.querySelectorAll('#mainNav .nav-item').forEach((item) => item.classList.remove('active-link'));
+            if (el) el.classList.add('active-link');
+            const msg = el.getAttribute(currentLang === 'bn' ? 'data-msg-bn' : 'data-msg-en');
+            if (msg) {
+                document.getElementById('clickFeedback').textContent = msg;
+            }
+        }
+
+        function readQueue() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) {
+                        memoryQueue = parsed;
+                        return parsed;
+                    }
+                }
+            } catch (e) {
+                // Fallback to memory list
+            }
+            return memoryQueue;
+        }
+
+        function writeQueue(list) {
+            memoryQueue = list;
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+            } catch (e) {
+                // Ignore restricted storage errors
+            }
+        }
+
+        function setFooterYear() {
+            const currentYear = new Date().getFullYear();
+            document.getElementById('year').textContent = Math.max(2027, currentYear);
+        }
+
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+
+        function filterTests() {
+            const query = document.getElementById('testSearch').value.toLowerCase().trim();
+            const rows = document.querySelectorAll('#testTable tbody tr');
+            rows.forEach((row) => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        function recommendDoctor() {
+            const disease = document.getElementById('diseaseSelect').value;
+            const recBox = document.getElementById('recommendationBox');
+            const docSelect = document.getElementById('selectDoctor');
+
+            const map = {
+                medicine: {
+                    doc: 'Dr. Afrin Sultana (Medicine)',
+                    en: 'Recommended Specialist: Dr. Afrin Sultana (Medicine Specialist)',
+                    bn: 'পরামর্শ: এই সমস্যার জন্য ডা. আফরিন সুলতানা (মেডিসিন বিশেষজ্ঞ) দেখালে ভালো হয়।'
+                },
+                surgery: {
+                    doc: 'Dr. Yusuf Ahmed (Surgery)',
+                    en: 'Recommended Specialist: Dr. Yusuf Ahmed (Surgery Specialist)',
+                    bn: 'পরামর্শ: এই সমস্যার জন্য ডা. ইউসুফ আহমেদ (সার্জারি বিশেষজ্ঞ) দেখালে ভালো হয়।'
+                },
+                child: {
+                    doc: 'Dr. Saadia Sultana (Child & Newborn)',
+                    en: 'Recommended Specialist: Dr. Saadia Sultana (Child & Newborn Specialist)',
+                    bn: 'পরামর্শ: শিশু বা নবজাতকের সমস্যার জন্য ডা. সাদিয়া সুলতানা দেখালে ভালো হয়।'
+                },
+                cardiology: {
+                    doc: 'Mohammed Ashraful Islam Tuhin (Cardiology)',
+                    en: 'Recommended Specialist: Mohammed Ashraful Islam Tuhin (Cardiology Specialist)',
+                    bn: 'পরামর্শ: হার্ট বা ব্লাড প্রেশারের সমস্যার জন্য ডা. মো. আশরাফুল ইসলাম তুহিন দেখালে ভালো হয়।'
+                }
+            };
+
+            if (!disease || !map[disease]) {
+                recBox.style.display = 'none';
+                return;
+            }
+
+            recBox.style.display = 'block';
+            recBox.innerHTML = '<i class="fas fa-stethoscope"></i> ' + map[disease][currentLang];
+            docSelect.value = map[disease].doc;
+        }
+
+        function onTestChange() {
+            updateFeePreview();
+            evaluateGuards();
+        }
+
+        function evaluateGuards() {
+            const { names } = getSelectedTests();
+            const mealStatus = document.getElementById('fastingStatus').value;
+            const lastDaysRaw = document.getElementById('lastLabDays').value;
+            const readinessText = document.getElementById('readinessText');
+            const repeatText = document.getElementById('repeatText');
+
+            const fastingSensitive = names.some((n) => ['Lipid Profile', 'USG Whole Abdomen'].includes(n));
+
+            if (currentLang === 'bn') {
+                if (names.length === 0) {
+                    readinessText.textContent = 'উপরের টেস্ট বা খাওয়ার অবস্থা সিলেক্ট করলে খালি পেটের পরামর্শ দেখাবে।';
+                } else if (fastingSensitive && mealStatus === 'eaten') {
+                    readinessText.textContent = 'সতর্কতা: Lipid Profile বা USG Whole Abdomen খালি পেটে করলে রিপোর্ট সঠিক আসে। আজ খেয়ে থাকলে সকালের খালি পেটে টেস্ট করা ভালো।';
+                } else if (fastingSensitive && mealStatus === 'fasting') {
+                    readinessText.textContent = 'ঠিক আছে: আপনি খালি পেটে আছেন, যা Lipid বা USG টেস্টের জন্য উপযোগী।';
+                } else {
+                    readinessText.textContent = 'ঠিক আছে: নির্বাচিত টেস্টগুলোর জন্য খালি পেট থাকার কড়া নিয়ম নেই।';
+                }
+
+                if (lastDaysRaw !== '' && !Number.isNaN(Number(lastDaysRaw))) {
+                    const days = Number(lastDaysRaw);
+                    if (names.includes('Lipid Profile') && days < 30) {
+                        repeatText.textContent = `রিপিট সতর্কতা: ${days} দিন আগে Lipid Profile করা হয়েছে। ডাক্তারের বিশেষ নির্দেশ না থাকলে ৩০ দিনের আগে আবার করা সাধারণত জরুরি নয়।`;
+                    } else if (names.length > 0 && days < 7) {
+                        repeatText.textContent = `রিপিট সতর্কতা: ${days} দিন আগে একই ধরনের টেস্ট হয়েছে। করার আগে ডাক্তারের পরামর্শ নিন।`;
+                    } else {
+                        repeatText.textContent = 'রিপিট যাচাই: খুব সাম্প্রতিক কোনো টেস্টের সংঘাত পাওয়া যায়নি।';
+                    }
+                } else {
+                    repeatText.textContent = '';
+                }
+                return;
+            }
+
+            if (names.length === 0) {
+                readinessText.textContent = 'Select tests or meal status above to see preparation advice.';
+            } else if (fastingSensitive && mealStatus === 'eaten') {
+                readinessText.textContent = 'Advice: Lipid Profile or USG Whole Abdomen gives clearer results when fasting. Morning fasting sampling is often better if you recently ate.';
+            } else if (fastingSensitive && mealStatus === 'fasting') {
+                readinessText.textContent = 'Ready: Patient is fasting, which matches Lipid Profile / USG Whole Abdomen preparation.';
+            } else {
+                readinessText.textContent = 'Ready: Selected tests do not strictly require fasting right now.';
+            }
+
+            if (lastDaysRaw !== '' && !Number.isNaN(Number(lastDaysRaw))) {
+                const days = Number(lastDaysRaw);
+                if (names.includes('Lipid Profile') && days < 30) {
+                    repeatText.textContent = `Repeat Check: Lipid Profile was done ${days} day(s) ago. Repeating within 30 days is often unnecessary unless a doctor advises.`;
+                } else if (names.length > 0 && days < 7) {
+                    repeatText.textContent = `Repeat Check: Similar lab test was done ${days} day(s) ago. Confirm with the doctor first.`;
+                } else {
+                    repeatText.textContent = 'Repeat Check: No recent short-interval conflict flagged.';
+                }
+            } else {
+                repeatText.textContent = '';
+            }
+        }
+
+        function getSelectedTests() {
+            const checked = Array.from(document.querySelectorAll('#testChecklist input[type="checkbox"]:checked'));
+            const names = checked.map((cb) => cb.dataset.name);
+            const total = checked.reduce((sum, cb) => sum + Number(cb.value || 0), 0);
+            return { names, total };
+        }
+
+        function updateFeePreview() {
+            const { total } = getSelectedTests();
+            const prefix = currentLang === 'bn' ? 'নির্বাচিত টেস্টের আনুমানিক ফি: ৳ ' : 'Estimated Selected Lab Fee: ৳ ';
+            document.getElementById('feePreview').textContent = prefix + total.toLocaleString();
+        }
+
+        function bookSerial() {
+            const name = document.getElementById('patientName').value.trim();
+            const phone = document.getElementById('patientPhone').value.trim();
+            const priority = document.getElementById('visitPriority').value;
+            const doctor = document.getElementById('selectDoctor').value;
+            const note = document.getElementById('clinicalNote').value.trim();
+            const { names, total } = getSelectedTests();
+
+            if (!name || !phone) {
+                alert(currentLang === 'bn' ? 'দয়া করে রোগীর নাম এবং মোবাইল নম্বর লিখুন।' : 'Please enter both Patient Name and Mobile Number.');
+                return;
+            }
+
+            const existing = [...readQueue()];
+            const nextNum = existing.length + 1;
+            const tokenCode = 'HP-' + String(nextNum).padStart(3, '0');
+            const testsText = names.length > 0 ? names.join(', ') : (currentLang === 'bn' ? 'শুধু ডাক্তার পরামর্শ' : 'Consultation Only');
+            const noteText = note || (currentLang === 'bn' ? 'সাধারণ চেকআপ' : 'Standard Checkup');
+
+            const slipCard = document.getElementById('slipCard');
+            const slipDetails = document.getElementById('slipDetails');
+            slipCard.style.display = 'block';
+
+            if (currentLang === 'bn') {
+                slipDetails.innerHTML = `
+                    <p><strong>সিরিয়াল টোকেন:</strong> ${tokenCode} ${priority === 'Priority' ? '<span class="priority-tag">জরুরি</span>' : ''}</p>
+                    <p><strong>রোগীর নাম:</strong> ${escapeHtml(name)}</p>
+                    <p><strong>মোবাইল:</strong> ${escapeHtml(phone)}</p>
+                    <p><strong>ডাক্তার:</strong> ${escapeHtml(doctor)}</p>
+                    <p><strong>টেস্ট:</strong> ${escapeHtml(testsText)}</p>
+                    <p><strong>নোট:</strong> ${escapeHtml(noteText)}</p>
+                    <p><strong>আনুমানিক টেস্ট ফি:</strong> ৳ ${total.toLocaleString()}</p>
+                `;
+            } else {
+                slipDetails.innerHTML = `
+                    <p><strong>Serial Token:</strong> ${tokenCode} ${priority === 'Priority' ? '<span class="priority-tag">PRIORITY</span>' : ''}</p>
+                    <p><strong>Patient Name:</strong> ${escapeHtml(name)}</p>
+                    <p><strong>Mobile:</strong> ${escapeHtml(phone)}</p>
+                    <p><strong>Doctor:</strong> ${escapeHtml(doctor)}</p>
+                    <p><strong>Tests:</strong> ${escapeHtml(testsText)}</p>
+                    <p><strong>Note:</strong> ${escapeHtml(noteText)}</p>
+                    <p><strong>Estimated Lab Fee:</strong> ৳ ${total.toLocaleString()}</p>
+                `;
+            }
+
+            const smsBox = document.getElementById('smsBox');
+            smsBox.style.display = 'block';
+            smsBox.innerHTML = currentLang === 'bn'
+                ? `[নোটিফিকেশন -> ${escapeHtml(phone)}]<br>${escapeHtml(name)}-এর টোকেন ${tokenCode} তৈরি হয়েছে। বর্তমান ধাপ: Queued।`
+                : `[Alert -> ${escapeHtml(phone)}]<br>Token ${tokenCode} issued for ${escapeHtml(name)}. Current stage: Queued.`;
+
+            const entry = {
+                id: Date.now() + Math.floor(Math.random() * 1000),
+                token: tokenCode,
+                name,
+                phone,
+                priority,
+                doctor,
+                tests: testsText,
+                note: noteText,
+                fee: total,
+                stageIndex: 0
+            };
+
+            if (priority === 'Priority') {
+                existing.unshift(entry);
+            } else {
+                existing.push(entry);
+            }
+            writeQueue(existing.slice(0, 50));
+            renderQueue();
+        }
+
+        function printSlipSafe() {
+            const slipCard = document.getElementById('slipCard');
+            if (slipCard.style.display !== 'block') {
+                alert(currentLang === 'bn' ? 'আগে একটি সিরিয়াল টোকেন তৈরি করুন, তারপর স্লিপ প্রিন্ট করুন।' : 'Generate a serial token first before printing the slip.');
+                return;
+            }
+            window.print();
+        }
+
+        function advanceStage(id) {
+            const list = readQueue();
+            const updated = list.map((item) => {
+                if (item.id === id) {
+                    const nextIdx = (Number(item.stageIndex || 0) + 1) % STAGES.length;
+                    const nextStageName = STAGES[nextIdx];
+                    const smsBox = document.getElementById('smsBox');
+                    smsBox.style.display = 'block';
+                    smsBox.innerHTML = currentLang === 'bn'
+                        ? `[ধাপ আপডেট -> ${escapeHtml(item.phone)}]<br>টোকেন ${escapeHtml(item.token)} (${escapeHtml(item.name)}) এখন <strong>${nextStageName}</strong> ধাপে আছে।`
+                        : `[Stage Update -> ${escapeHtml(item.phone)}]<br>Token ${escapeHtml(item.token)} (${escapeHtml(item.name)}) moved to <strong>${nextStageName}</strong>.`;
+                    return { ...item, stageIndex: nextIdx };
+                }
+                return item;
+            });
+            writeQueue(updated);
+            renderQueue();
+        }
+
+        function renderQueue() {
+            const tbody = document.getElementById('queueBody');
+            const list = readQueue();
+
+            const totalRevenue = list.reduce((sum, item) => sum + Number(item.fee || 0), 0);
+            document.getElementById('statPatients').textContent = list.length;
+            document.getElementById('statRevenue').textContent = '৳ ' + totalRevenue.toLocaleString();
+
+            const emptyText = currentLang === 'bn' ? 'এখনো কোনো সিরিয়াল যুক্ত হয়নি।' : 'No serials in the queue yet.';
+            const nextBtnText = currentLang === 'bn' ? 'পরের ধাপ' : 'Next Stage';
+
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#64748b;">${escapeHtml(emptyText)}</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = list.map((item) => {
+                const idx = Number(item.stageIndex || 0);
+                const stageName = STAGES[idx] || STAGES[0];
+                const isReady = stageName === 'Report Ready';
+                return `
+                    <tr>
+                        <td><strong>${escapeHtml(item.token)}</strong> ${item.priority === 'Priority' ? '<span class="priority-tag">URGENT</span>' : ''}</td>
+                        <td>${escapeHtml(item.name)}</td>
+                        <td>${escapeHtml(item.phone)}</td>
+                        <td>${escapeHtml(item.doctor)}</td>
+                        <td>${escapeHtml(item.note || '-')}</td>
+                        <td>৳ ${Number(item.fee || 0).toLocaleString()}</td>
+                        <td><span class="stage-pill ${isReady ? 'stage-ready' : ''}">${stageName}</span></td>
+                        <td>
+                            <button type="button" class="btn btn-sm ${isReady ? 'btn-outline' : ''}" onclick="advanceStage(${item.id})">
+                                ${escapeHtml(nextBtnText)}
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function exportPipelineCSV() {
+            const list = readQueue();
+            if (list.length === 0) {
+                alert(currentLang === 'bn' ? 'এক্সপোর্ট করার মতো কোনো সিরিয়াল রেকর্ড নেই।' : 'No queue records available to export yet.');
+                return;
+            }
+
+            const headers = ['Token', 'Priority', 'Patient Name', 'Phone', 'Doctor', 'Tests', 'Note', 'Lab Fee (BDT)', 'Stage'];
+            const rows = list.map((item) => [
+                item.token,
+                item.priority || 'Normal',
+                item.name,
+                item.phone,
+                item.doctor,
+                item.tests || 'Consultation Only',
+                item.note || 'Standard Checkup',
+                item.fee || 0,
+                STAGES[Number(item.stageIndex || 0)] || STAGES[0]
+            ]);
+
+            const csvContent = [headers, ...rows]
+                .map((row) => row.map((val) => `"${String(val).replace(/"/g, '""')}"`).join(','))
+                .join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'health_point_pipeline_2027.csv';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        function clearQueue() {
+            writeQueue([]);
+            renderQueue();
+        }
+
+        function resetBookingForm() {
+            document.getElementById('patientName').value = '';
+            document.getElementById('patientPhone').value = '';
+            document.getElementById('fastingStatus').value = 'unknown';
+            document.getElementById('lastLabDays').value = '';
+            document.getElementById('visitPriority').value = 'Normal';
+            document.getElementById('diseaseSelect').value = '';
+            document.getElementById('clinicalNote').value = '';
+            document.getElementById('recommendationBox').style.display = 'none';
+            document.querySelectorAll('#testChecklist input[type="checkbox"]').forEach((cb) => {
+                cb.checked = false;
+            });
+            updateFeePreview();
+            evaluateGuards();
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        setFooterYear();
+        applyLanguage('en');
+    </script>
+</body>
+</html>
